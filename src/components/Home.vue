@@ -55,6 +55,7 @@ export default {
       // 左侧菜单 等待存放后端数据的接收数组
       menuList: [],
       isCoppapse:false, // 伸缩
+      // 图片icon的来源
       iconsObject:{
         '100':'iconfont icon-guanliyuan',
         '200':'iconfont icon-jiankong',
