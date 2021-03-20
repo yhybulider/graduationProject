@@ -23,6 +23,7 @@
           text-color="#fff"
           active-text-color="#ffd04b"
           :collapse="isCoppapse"
+          :router="true" 
         >
         <!-- 一级菜单 -->
           <el-submenu :index="item.id+''" v-for="item in menuList" :key="item.id">
@@ -31,7 +32,7 @@
               <span>{{item.title}}</span>
             </template>
             <!-- 二级菜单 -->
-            <el-menu-item :index="it.id+''" v-for="it in item.sList" :key="it.id">
+            <el-menu-item :index="it.path" v-for="it in item.sList" :key="it.id">
               <template slot="title">
                 <i :class="iconsObject[it.id]"></i>
                 <span>{{it.title}}</span>
