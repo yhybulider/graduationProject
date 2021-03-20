@@ -19,7 +19,7 @@
         <div class="toggle-button" @click="toggleCollapase">|||</div>
         <!-- router开启路由，collapse-transition开启折叠动画 -->
         <el-menu
-          background-color="#909399"
+          background-color="#182a4d"
           text-color="#fff"
           active-text-color="#ffd04b"
           :collapse="isCoppapse"
@@ -27,13 +27,13 @@
         <!-- 一级菜单 -->
           <el-submenu :index="item.id+''" v-for="item in menuList" :key="item.id">
             <template slot="title">
-              <i :class="el-icon-location"></i>
+              <i :class="iconsObject[item.id]"></i>
               <span>{{item.title}}</span>
             </template>
             <!-- 二级菜单 -->
             <el-menu-item :index="it.id+''" v-for="it in item.sList" :key="it.id">
               <template slot="title">
-                <i :class="el-icon-location"></i>
+                <i :class="iconsObject[it.id]"></i>
                 <span>{{it.title}}</span>
               </template>
             </el-menu-item>
@@ -55,7 +55,18 @@ export default {
     return {
       // 左侧菜单 等待存放后端数据的接收数组
       menuList: [],
-      isCoppapse:false // 伸缩
+      isCoppapse:false, // 伸缩
+      iconsObject:{
+        '100':'iconfont icon-guanliyuan',
+        '200':'iconfont icon-jiankong',
+        '101':'iconfont icon-shuju',
+        '102':'iconfont icon-keshihuaguanli',
+        '103':'iconfont icon-zu',
+        '104':'iconfont icon-dianqihuozai',
+        '105':'iconfont icon-dianqihuozai1',
+        '106':'iconfont icon-keshihuakanban',
+      }
+
     };
   },
   // onload事件，一开始加载就执行查询menu方法
@@ -116,6 +127,11 @@ export default {
     }
   }
 }
+
+
+.el-button--info {
+  background-color:  #314875;
+}
 .logo_img {
   display: flex;
   width: 20%;
@@ -128,7 +144,7 @@ export default {
   /* display: inline-block; */
 }
 .toggle-button{
-  background-color: #6da17a;
+  background-color: #d3c5b0;
   font-size: 10px;
   line-height: 24px;
   color: rgb(46, 37, 37);
