@@ -24,6 +24,7 @@
           active-text-color="#ffd04b"
           :collapse="isCoppapse"
           :router="true" 
+          :default-active="activepath"
         >
         <!-- 一级菜单 -->
           <el-submenu :index="item.id+''" v-for="item in menuList" :key="item.id">
@@ -66,7 +67,8 @@ export default {
         '104':'iconfont icon-dianqihuozai',
         '105':'iconfont icon-dianqihuozai1',
         '106':'iconfont icon-keshihuakanban',
-      }
+      },
+      activepath:"/welcome",//默认路径
 
     };
   },
