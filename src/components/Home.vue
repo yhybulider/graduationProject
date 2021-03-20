@@ -1,0 +1,140 @@
+<template>
+  <!-- 引入container布局 -->
+  <el-container class="home-container">
+    <!-- 头部 -->
+    <el-header>
+      <div class="logo_img">
+        <img src="../assets/tubiao.png" alt />
+        <span>家庭用电监控系统</span>
+      </div>
+      <el-button class="logout_but" type="info" @click="logout"
+        >安全退出</el-button
+      >
+    </el-header>
+    <!-- 主体 -->
+    <el-container>
+      <!-- 侧边栏 -->
+      <el-aside :width="isCoppapse? '64px':'200px'">
+        <!-- 伸缩按钮 -->
+        <div class="toggle-button" @click="toggleCollapase">|||</div>
+        <!-- router开启路由，collapse-transition开启折叠动画 -->
+        <el-menu
+          background-color="#909399"
+          text-color="#fff"
+          active-text-color="#ffd04b"
+          :collapse="isCoppapse"
+        >
+        <!-- 一级菜单 -->
+          <el-submenu :index="item.id+''" v-for="item in menuList" :key="item.id">
+            <template slot="title">
+              <i :class="el-icon-location"></i>
+              <span>{{item.title}}</span>
+            </template>
+            <!-- 二级菜单 -->
+            <el-menu-item :index="it.id+''" v-for="it in item.sList" :key="it.id">
+              <template slot="title">
+                <i :class="el-icon-location"></i>
+                <span>{{it.title}}</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+        </el-menu>
+      </el-aside>
+      <!-- 主体内容 -->
+      <el-main>
+        {{ menuList }}
+        <!-- <router-view></router-view> -->
+      </el-main>
+    </el-container>
+  </el-container>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      // 左侧菜单 等待存放后端数据的接收数组
+      menuList: [],
+      isCoppapse:false // 伸缩
+    };
+  },
+  // onload事件，一开始加载就执行查询menu方法
+  created() {
+    this.getMenuList();
+  },
+  methods: {
+    logout() {
+      window.sessionStorage.clear(); //清除session，退出的时候
+      this.$router.push("/login");
+    },
+    async getMenuList() {
+      // 结果封装
+      // 后台获取的菜单数据保存在前端
+      const { data: res } = await this.$http.get("menus");
+      console.log(res);
+      if (res.flag != 200) return this.$message.error("操作失败！！");
+      this.menuList = res.menus;
+    },
+    toggleCollapase(){
+      this.isCoppapse = !this.isCoppapse;
+    }
+  },
+};
+</script>
+
+<style lang="less" scoped>
+.el-header {
+  background-color: #d3c5b0;
+}
+.el-aside {
+  background-color: #d3c5b0;
+  //   改变侧边栏不对齐线的情况
+  .el-menu {
+    border-right: none;
+  }
+}
+.el-main {
+  background-color: #eaedf1;
+}
+.home-container {
+  height: 100%;
+}
+.el-header {
+  background-color: #d3c5b0;
+  display: flex;
+  justify-content: space-between;
+  padding-left: 0%;
+  align-items: center;
+  color: #fff;
+  font-size: 20px;
+  > div {
+    //   display: flex;
+    //   align-items: center;
+    span {
+      margin-left: 5px;
+      margin-top: 15px;
+    }
+  }
+}
+.logo_img {
+  display: flex;
+  width: 20%;
+  height: 100%;
+  justify-content: flex-start;
+  /* align-items 属性定义flex子项在flex容器的当前行的侧轴（纵轴）方向上的对齐方式。 */
+  align-items: stretch;
+  vertical-align: middle;
+  text-align: left;
+  /* display: inline-block; */
+}
+.toggle-button{
+  background-color: #6da17a;
+  font-size: 10px;
+  line-height: 24px;
+  color: rgb(46, 37, 37);
+  text-align: center;
+  letter-spacing: 0.2em;
+  cursor: pointer;//显示小手
+  
+}
+</style>

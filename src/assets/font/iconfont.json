@@ -1,0 +1,107 @@
+{
+  "id": "2414055",
+  "name": "monitor",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "731261",
+      "name": "登录账号",
+      "font_class": "guanbi",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "2681975",
+      "name": "管理员",
+      "font_class": "guanliyuan",
+      "unicode": "e6fb",
+      "unicode_decimal": 59131
+    },
+    {
+      "icon_id": "7336777",
+      "name": "登录密码",
+      "font_class": "denglumima",
+      "unicode": "e665",
+      "unicode_decimal": 58981
+    },
+    {
+      "icon_id": "2543335",
+      "name": "数据",
+      "font_class": "shuju",
+      "unicode": "e694",
+      "unicode_decimal": 59028
+    },
+    {
+      "icon_id": "7161774",
+      "name": "可视化管理",
+      "font_class": "keshihuaguanli",
+      "unicode": "e687",
+      "unicode_decimal": 59015
+    },
+    {
+      "icon_id": "8453450",
+      "name": "报警",
+      "font_class": "baojing",
+      "unicode": "e68e",
+      "unicode_decimal": 59022
+    },
+    {
+      "icon_id": "8551506",
+      "name": "电气火灾",
+      "font_class": "dianqihuozai",
+      "unicode": "e852",
+      "unicode_decimal": 59474
+    },
+    {
+      "icon_id": "9874497",
+      "name": "KHCFDC_监控",
+      "font_class": "jiankong",
+      "unicode": "e6d0",
+      "unicode_decimal": 59088
+    },
+    {
+      "icon_id": "10278182",
+      "name": "报警",
+      "font_class": "baojing1",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "11079327",
+      "name": "可视化",
+      "font_class": "keshihuakanban",
+      "unicode": "e711",
+      "unicode_decimal": 59153
+    },
+    {
+      "icon_id": "11684944",
+      "name": "数据",
+      "font_class": "zu",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "14975824",
+      "name": "运动",
+      "font_class": "yundong",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "15035626",
+      "name": "监控",
+      "font_class": "ico_monitoring",
+      "unicode": "e67c",
+      "unicode_decimal": 59004
+    },
+    {
+      "icon_id": "16744576",
+      "name": "电气火灾",
+      "font_class": "dianqihuozai1",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    }
+  ]
+}
