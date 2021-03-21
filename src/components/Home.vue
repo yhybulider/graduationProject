@@ -33,7 +33,8 @@
               <span>{{item.title}}</span>
             </template>
             <!-- 二级菜单 -->
-            <el-menu-item :index="it.path" v-for="it in item.sList" :key="it.id">
+            <!-- 使用saveNavState来保存最近一次的路径 -->
+            <el-menu-item :index="it.path" v-for="it in item.sList" :key="it.id" @click="saveNavState(it.path+'')">
               <template slot="title">
                 <i :class="iconsObject[it.id]"></i>
                 <span>{{it.title}}</span>
@@ -52,6 +53,7 @@
 
 <script>
 export default {
+  // 数据
   data() {
     return {
       // 左侧菜单 等待存放后端数据的接收数组
@@ -75,6 +77,8 @@ export default {
   // onload事件，一开始加载就执行查询menu方法
   created() {
     this.getMenuList();
+    // 取出session里的访问路径
+    this.activepath = window.sessionStorage.getItem('activepath');
   },
   methods: {
     logout() {
@@ -91,6 +95,11 @@ export default {
     },
     toggleCollapase(){
       this.isCoppapse = !this.isCoppapse;
+    },
+    saveNavState(activepath) {
+      // 使用缓存保存
+      window.sessionStorage.setItem('activepath',activepath);
+      this.activepath = activepath;
     }
   },
 };
