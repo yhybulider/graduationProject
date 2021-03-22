@@ -7,11 +7,21 @@
       <el-breadcrumb-item>权限管理</el-breadcrumb-item>
       <el-breadcrumb-item>用户列表</el-breadcrumb-item>
     </el-breadcrumb>
-<!-- 用户列表的主体 -->
+    <!-- 用户列表的主体 -->
     <el-card>
-        <!-- 搜索区域 -->
-        
-
+      <!-- 搜索区域 -->
+      <el-row :gutter="25">
+        <el-col :span="10">
+          <!-- 搜索添加 -->
+          <el-input placeholder="请输入搜索内容">
+            <el-button slot="append" icon="el-icon-search"> </el-button>
+          </el-input>
+        </el-col>
+        <!-- 同行的按钮 -->
+        <el-col :span="4">
+          <el-button type="primary" @click="addDialogVisiable = true"> 添加用户 </el-button>
+        </el-col>
+      </el-row>
     </el-card>
   </div>
 </template>
@@ -20,8 +30,8 @@ export default {};
 </script>
 
 <style lang = "less" scoped>
-.el-breadcrumb{
-    margin-bottom: 15px;
-    font-size: 12px;
+.el-breadcrumb {
+  margin-bottom: 15px;
+  font-size: 12px;
 }
 </style>
