@@ -53,8 +53,18 @@
                   </el-tooltip>
               </template>
           </el-table-column>
-
       </el-table>
+
+      <!-- 分页操作 -->
+      <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="queryInfo.pageNum"
+      :page-sizes="[1, 2, 5, 100]"
+      :page-size="queryInfo.pageNum"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total">
+    </el-pagination>
     </el-card>
   </div>
 </template>
@@ -85,6 +95,17 @@ export default {
       this.userlist = res.data;
       this.total = res.numbers;
     },
+    // 添加方法的使用
+    handleSizeChange(newSize) {
+        this.queryInfo.pageSize = newSize;
+        this.getUserList();// 重新提交表单
+    },
+    handleCurrentChange(newPage) {
+        this.queryInfo.pageNum = newPage;
+        this.getUserList();
+
+    }
+
   },
 };
 </script>
