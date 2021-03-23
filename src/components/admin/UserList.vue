@@ -19,14 +19,47 @@
         </el-col>
         <!-- 同行的按钮 -->
         <el-col :span="4">
-          <el-button type="primary" @click="addDialogVisiable = true"> 添加用户 </el-button>
+          <el-button type="primary" @click="addDialogVisiable = true">
+            添加用户
+          </el-button>
         </el-col>
       </el-row>
+
+      <span>
+          {{userlist}}
+      </span>
     </el-card>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  // 一开始就加载
+  created() {
+    this.getUserList();
+  },
+  // 返回的数据
+  data() {
+    return {
+      // 请求数据
+      queryInfo: {
+        query: "",
+        pageNum: 1,
+        pageSize: 5
+      },
+      userlist: [], // 用户列表
+      total: 0, // 最大数据记录
+    };
+  },
+  // 各种的方法
+  methods: {
+    async getUserList() {
+      // get方法访问后台的路径
+      const { data: res } = await this.$http.get("allUser", {params: this.queryInfo});
+      this.userlist = res.data;
+      this.total = res.numbers;
+    },
+  },
+};
 </script>
 
 <style lang = "less" scoped>
