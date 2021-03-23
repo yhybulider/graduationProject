@@ -25,9 +25,36 @@
         </el-col>
       </el-row>
 
-      <span>
-          {{userlist}}
-      </span>
+      <!-- 用户列表的绘制 -->
+      <el-table :data="userlist" border stripe>
+
+          <el-table-column label="用户" prop="username"></el-table-column>
+          <el-table-column label="邮箱" prop="email"></el-table-column>
+          <el-table-column label="密码" prop="password"></el-table-column>
+          <el-table-column label="角色" prop="role"></el-table-column>
+          <el-table-column label="状态" prop="state">
+
+              <!-- 作用域插槽 -->
+              <template slot-scope="scope">
+                  <!-- scope.row每一行封存的数据 -->
+                  <el-switch v-model="scope.row.state"></el-switch>
+              </template>
+          </el-table-column>
+
+          <el-table-column label="操作">
+              <template>
+                  <!-- 修改 -->
+                  <el-button type="primary" icon="el-icon-edit" size="mini"></el-button>
+                  <!-- 删除 -->
+                  <el-button type="danger" icon="el-icon-delete" size="mini"></el-button>
+                  <!-- 权限 -->
+                  <el-tooltip effect="dark" content="分配权限" placement="top-start" :enterable="false">
+                      <el-button type="warning" icon="el-icon-setting" size="mini"></el-button>
+                  </el-tooltip>
+              </template>
+          </el-table-column>
+
+      </el-table>
     </el-card>
   </div>
 </template>
