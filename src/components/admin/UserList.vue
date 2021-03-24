@@ -37,7 +37,7 @@
               <!-- 作用域插槽 -->
               <template slot-scope="scope">
                   <!-- scope.row每一行封存的数据 -->
-                  <el-switch v-model="scope.row.state"></el-switch>
+                  <el-switch v-model="scope.row.state" @change="userStateChanged(scope.row)"></el-switch>
               </template>
           </el-table-column>
 
@@ -96,13 +96,24 @@ export default {
       this.total = res.numbers;
     },
     // 添加方法的使用
+    // 现在的页码是多少
     handleSizeChange(newSize) {
         this.queryInfo.pageSize = newSize;
         this.getUserList();// 重新提交表单
     },
+    // 页码的跳转方法
     handleCurrentChange(newPage) {
         this.queryInfo.pageNum = newPage;
         this.getUserList();
+
+    },
+    async userStateChanged(userInfo){
+        const {data: res} = await this.$http.put(`userState?id=${userInfo.id}&state=${userInfo.state}`);
+        if (res != "success") {
+            userInfo.state =! userInfo.state;
+            return this.$message.error("操作失败！");
+        }
+        this.$$message.success("操作成功！");
 
     }
 
