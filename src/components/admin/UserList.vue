@@ -12,9 +12,9 @@
       <!-- 搜索区域 -->
       <el-row :gutter="25">
         <el-col :span="10">
-          <!-- 搜索添加 -->
-          <el-input placeholder="请输入搜索内容">
-            <el-button slot="append" icon="el-icon-search"> </el-button>
+          <!-- 搜索添加 搜索的功能通过将query来重新提交表单搜索-->
+          <el-input placeholder="请输入搜索内容" v-model="queryInfo.query" clearable @clear="getUserList" >
+            <el-button slot="append" icon="el-icon-search" @click="getUserList"> </el-button>
           </el-input>
         </el-col>
         <!-- 同行的按钮 -->
