@@ -194,9 +194,26 @@ export default {
       }
       this.$$message.success("操作成功！");
     },
-    // 重置表单
+    // 重置表单 取消的按钮的逻辑
     addDialogClosed() {
       this.$refs.addFormRef.resetFields(); //重置表单
+    },
+    // 编写添加用户的逻辑
+    addUser() {
+        this.$refs.addFormRef.validate(async valid => {
+            console.log(valid);
+            if (!valid) return;
+
+            // 发起请求
+            const {data:res} = await this.$http.put("addUser",this.addForm);
+            if (res != "success") {
+                userInfo.state = !userInfo.state;
+                return this.$message.error("操作失败!");
+            }
+            this.$message.success("操作成功！");
+            this.addDialogVisible = false; // 重新置为false
+            this.getUserList();// 重新刷表单
+        })
     },
   },
 };
