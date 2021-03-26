@@ -49,7 +49,7 @@
         </el-table-column>
 
         <el-table-column label="操作">
-          <template>
+          <template slot-scope="scope">
             <!-- 修改 -->
             <el-button
               type="primary"
@@ -61,6 +61,7 @@
               type="danger"
               icon="el-icon-delete"
               size="mini"
+              @click="deleteUser(scope.row.id)"
             ></el-button>
             <!-- 权限 -->
             <el-tooltip
@@ -214,6 +215,25 @@ export default {
             this.addDialogVisible = false; // 重新置为false
             this.getUserList();// 重新刷表单
         })
+    },
+    async deleteUser(id) {
+        const confirmResult = await this.$confirm('将永久删除用户，是否继续？' ,  '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).catch(err => err)
+
+        // 成功就是confirm 失败是cancel
+        if (confirmResult != 'confirm') {
+            return this.$message.info("已经取消删除");
+        }
+        const {data : res} = await this.$http.delete("deleteUser?id="+id);
+
+        if (res != "success") {
+            return this.$message.error("操作失败！！");
+        }
+        this.$message.success("操作成功！！");
+        this.getUserList();
     },
   },
 };

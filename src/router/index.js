@@ -4,6 +4,9 @@ import Login from '../components/Login.vue'
 import Home from '../components/Home.vue'
 import Welcome from '../components/Welcome.vue'
 import UserList from '../components/admin/UserList.vue'
+import VolteList from '../components/function/VolteList.vue'
+import CurrList from '../components/function/CurrList.vue'
+import TempList from '../components/function/TempList.vue'
 
 Vue.use(VueRouter)
 
@@ -22,7 +25,10 @@ const routes = [
     redirect:"/welcome",
     children:[
       {path:"/welcome",component: Welcome,},
-      {path:"/user",component: UserList,}
+      {path:"/user",component: UserList,},
+      {path:"/Volt",component: VolteList,},
+      {path:"/Elec",component: CurrList,},
+      {path:"/Temp",component: TempList,},
     ]
 
   },
