@@ -33,6 +33,7 @@
 
       <!-- 用户列表的绘制 -->
       <el-table :data="userlist" border stripe>
+        <el-table-column type="index"></el-table-column>
         <el-table-column label="用户" prop="username"></el-table-column>
         <el-table-column label="邮箱" prop="email"></el-table-column>
         <el-table-column label="密码" prop="password"></el-table-column>
@@ -55,6 +56,7 @@
               type="primary"
               icon="el-icon-edit"
               size="mini"
+              @click="showEditDialog(scope.row.id)"
             ></el-button>
             <!-- 删除 -->
             <el-button
@@ -118,6 +120,33 @@
         <el-button type="primary" @click="addUser">确 定</el-button>
       </span>
     </el-dialog>
+
+    <!-- 修改对话框 -->
+       <el-dialog title="修改用户" :visible.sync="editDialogVisible" width="50%"
+    @close="editDialogClosed">
+      <!-- 内容主体区域 -->
+      <el-form :model="editForm" :rules="editFormRules"
+        ref="editFormRef" label-width="70px">
+        <!-- 用户名 -->
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="editForm.username" disabled></el-input>
+        </el-form-item>
+        <!-- 密码 -->
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="editForm.password"></el-input>
+        </el-form-item>
+        <!-- 邮箱 -->
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="editForm.email"></el-input>
+        </el-form-item>
+      </el-form>
+      <!-- 内容底部区域 -->
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="editDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editUserInfo">确 定</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 <script>
@@ -146,6 +175,10 @@ export default {
       },
       //   控制修改用户对话框显示/隐藏
       editDialogVisible: false,
+      // 编辑用户
+      editForm: {
+      
+      },
 
       //   验证规则
       addFormRules: {
@@ -161,6 +194,17 @@ export default {
           { required: true, message: "请输入邮箱", trigger: "blur" },
           { min: 5, max: 15, message: "请输入正确邮箱地址", trigger: "blur" },
         ],
+      },
+      // 修改表单验证
+      editFormRules: {
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" },
+          { min: 6, max: 8, message: "长度在 6 到 8 个字符", trigger: "blur" },
+        ],
+        email: [
+          { required: true, message: "请输入邮箱", trigger: "blur" },
+          { min: 5, max: 15, message: "请输入正确邮箱地址", trigger: "blur" },
+        ]
       },
     };
   },
@@ -235,6 +279,33 @@ export default {
         this.$message.success("操作成功！！");
         this.getUserList();
     },
+
+    // 显示对话框
+    async showEditDialog(id) {
+      const {data:res} =  await this.$http.get("updateUser?id="+id);
+      this.editForm = res; // 查询用户反填回编辑表单
+      this.editDialogVisible = true; // 开启编辑对话框
+
+    },
+    // 关闭窗口
+    editDialogClosed(){
+      this.$refs.editFormRef.resetFields();// 重置信息
+    },
+    // 确认修改
+    editUserInfo() {
+      this.$refs.editFormRef.validate(async valid => {
+        console.log(valid);
+        if (!valid) return;
+        // 发起请求
+        const{data: res}  = await this.$http.put("editUser",this.editForm);
+        console.log(res);
+        if (res != "success") return this.$message.error("操作失败！！");
+        this.$message.success("操作成功！！");
+        // 隐藏
+        this.editDialogVisible = false;
+        this.getUserList();
+      })
+    }
   },
 };
 </script>
