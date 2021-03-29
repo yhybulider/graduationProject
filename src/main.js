@@ -8,6 +8,9 @@ import './assets/css/global.css'
 import './assets/font/iconfont.css'
 // 引入axios
 import axios from 'axios'
+//  引入echarts同时定义为全局变量
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 // 挂载axios
 Vue.prototype.$http=axios
 // 设置跨域的，访问根路径
