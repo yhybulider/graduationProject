@@ -7,6 +7,7 @@ import UserList from '../components/admin/UserList.vue'
 import VolteList from '../components/function/VolteList.vue'
 import CurrList from '../components/function/CurrList.vue'
 import TempList from '../components/function/TempList.vue'
+import RightsList from '../components/admin/RightsList.vue'
 
 Vue.use(VueRouter)
 
@@ -26,6 +27,7 @@ const routes = [
     children:[
       {path:"/welcome",component: Welcome,},
       {path:"/user",component: UserList,},
+      {path:"/rights",component: RightsList,},
       {path:"/Volt",component: VolteList,},
       {path:"/Elec",component: CurrList,},
       {path:"/Temp",component: TempList,},
