@@ -14,22 +14,37 @@
       >
     </div>
     <div class="permissMain">
-      <el-collapse  @change="change" accordion>
-        <el-collapse-item :title="r.role" :name="r.id" v-for="(r,index) in sysUser" :key="index">
-            <el-card class="box-card">
-                <div slot="header" class="clearfix">
-                    <span>可访问资源</span>
-                    <el-button style="float: right; padding: 3px 0; color: #ff0000 " type="text" icon="el-icon-delete"></el-button>
-                </div>
-                <div>
-                    <el-tree show-checkbox :data="allMeus" :props="defaultProps"></el-tree>
-                </div>
-
-            </el-card>
+      <el-collapse @change="change" accordion>
+        <el-collapse-item
+          :title="r.role"
+          :name="r.id"
+          v-for="(r, index) in sysUser"
+          :key="index"
+        >
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <span>可访问资源</span>
+              <el-button
+                style="float: right; padding: 3px 0; color: #ff0000"
+                type="text"
+                icon="el-icon-delete"
+              ></el-button>
+            </div>
+            <div>
+              <el-tree
+                show-checkbox
+                :data="allMeus"
+                :props="defaultProps"
+                :default-checked-keys="[200]"
+                node-key="id"
+              ></el-tree>
+            </div>
+            <div style="display: flex; justify-content: flex-end">
+              <el-button size="small">取消修改</el-button>
+              <el-button size="small" type="primary">确认修改</el-button>
+            </div>
+          </el-card>
         </el-collapse-item>
-       
-        
-      
       </el-collapse>
     </div>
   </div>
@@ -38,7 +53,7 @@
 <script>
 export default {
   created() {
-      this.getSysUser();
+    this.getSysUser();
   },
   data() {
     return {
@@ -46,21 +61,21 @@ export default {
         username: "",
         email: "",
       },
-    //   activeNames: "2",
-      sysUser:[],
-      allMeus:[],
-      defaultProps:{
-          children: 'sList',
-          label: 'title'
+      //   activeNames: "2",
+      sysUser: [],
+      allMeus: [],
+      defaultProps: {
+        children: "sList",
+        label: "title",
       },
     };
   },
   methods: {
-      change(rid) {
-          if (rid) {
-              this.getMenuList();
-          }
-      },
+    change(rid) {
+      if (rid) {
+        this.getMenuList();
+      }
+    },
     async getSysUser() {
       const { data: res } = await this.$http.get("getSysUser");
       console.log(res);
