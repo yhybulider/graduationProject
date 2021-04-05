@@ -14,7 +14,7 @@
       >
     </div>
     <div class="permissMain">
-      <el-collapse @change="change" accordion>
+      <el-collapse  v-model="activeName" @change="change" accordion>
         <el-collapse-item
           :title="r.role"
           :name="r.id"
@@ -35,13 +35,20 @@
                 show-checkbox
                 :data="allMeus"
                 :props="defaultProps"
+                ref="tree"
                 :default-checked-keys="[200]"
+                :key="index"
                 node-key="id"
               ></el-tree>
             </div>
             <div style="display: flex; justify-content: flex-end">
-              <el-button size="small">取消修改</el-button>
-              <el-button size="small" type="primary">确认修改</el-button>
+              <el-button size="mini" @click="cancelUpdate">取消修改</el-button>
+              <el-button
+                size="mini"
+                type="primary"
+                @click="doupdate(r.id, index)"
+                >确认修改</el-button
+              >
             </div>
           </el-card>
         </el-collapse-item>
@@ -61,7 +68,7 @@ export default {
         username: "",
         email: "",
       },
-      //   activeNames: "2",
+      activeName: -1,
       sysUser: [],
       allMeus: [],
       defaultProps: {
@@ -91,6 +98,22 @@ export default {
       console.log(res);
       if (res.flag != 200) return this.$message.error("操作失败！！");
       this.allMeus = res.menus;
+    },
+    cancelUpdate() {
+       this.activeName = -1;
+    },
+    async doupdate(rid, index) {
+      let tree = this.$refs.tree[index];
+      let selectedKeys = tree.getCheckedKeys(true);
+      let url = "/system/basic/permiss/?rid=" + rid;
+      selectedKeys.forEach((key) => {
+        url += "&mids=" + key;
+      })
+      const { data: res } = await  this.$http.put(url);
+      if (res) {
+        this.activeName = -1;
+      }
+      
     },
   },
 };
