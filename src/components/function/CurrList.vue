@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     Current Detection
-    <div id="main" style="width: 800px; height: 400px">测试</div>
+    <div id="main" style="width: 1500px; height: 400px;  display:inline">测试</div>
 
-    <div id="secmain" style="width: 800px; height: 400px">测试2</div>
+    <div id="secmain" style="width: 1500px; height: 400px;  display:inline">测试2</div>
   </div>
 </template>
 
@@ -20,6 +20,7 @@ export default {
       chart2: null,
       id: [],
       currdata: [],
+      tempdata:[],
     };
   },
   methods: {
@@ -29,6 +30,7 @@ export default {
       if (res1) {
         this.currdata = res1.curr;
         this.id = res1.id;
+        this.tempdata = res1.temp;
       }
       this.setChart2();
       this.setChart();
@@ -39,7 +41,7 @@ export default {
 
       var option = {
         title: {
-          text: "电流分布(单位:A)",
+          text: "电流环境分析",
         },
         tooltip: {
           trigger: "axis",
@@ -49,23 +51,23 @@ export default {
           },
         },
         grid: {
-          //   top: 10,
-          //   left: "20%",
+            top: 30,
+            left: "18%",
           //   right: "15%",
           //   bottom: "10%",
           //   containLabel: true,
-          right: "37%",
+          // right: "37%",
          
         },
         legend: {
-          data: ["电流数据", "电流"],
+          data: ["温度", "电流数据"],
           textStyle: {
             fontSize: 16,
             color: "green",
           },
         },
         xAxis: {
-          data: ["Mon", "Tue", "Wed", "Thu"],
+           data: ["Mon", "Tue", "Wed", "Thu","Fri","Sat","Sun"],
         },
         yAxis: {
           type: "value",
@@ -78,7 +80,7 @@ export default {
         },
         series: [
           {
-            name: "电流",
+            name: "电流数据",
             type: "bar",
             data: this.currdata,
             itemStyle: {
@@ -97,10 +99,19 @@ export default {
             },
           },
           {
-            name: "电流数据",
+            name: "温度",
             type: "line",
             smooth: true,
-            data: this.currdata,
+            data: this.tempdata,
+            label: {
+                  show: true, //开启显示
+                  position: "top", //在上方显示
+                  textStyle: {
+                    //数值样式
+                    color: "green",
+                    fontSize: 13,
+                  },
+                },
           },
         ],
       };
@@ -127,18 +138,18 @@ export default {
           },
         },
         grid: {
-          right: "37%",
+          left: "18%",
          
         },
         legend: {
-          data: ["电流数据", "电流"],
+          data: ["操作id", "电流"],
           textStyle: {
             fontSize: 16,
             color: "green",
           },
         },
         xAxis: {
-          data: ["Mon", "Tue", "Wed", "Thu"],
+          data: ["Mon", "Tue", "Wed", "Thu","Fri","Sat","Sun"],
         },
         yAxis: {
           type: "value",
@@ -153,7 +164,7 @@ export default {
           {
             name: "电流",
             type: "bar",
-            data: this.id,
+            data: this.currdata,
             itemStyle: {
               normal: {
                 color: "#d3c5b0",
@@ -170,7 +181,7 @@ export default {
             },
           },
           {
-            name: "电流数据",
+            name: "操作id",
             type: "line",
             smooth: true,
             data: this.id,
