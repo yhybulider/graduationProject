@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     Volt Detection
-    <div id="time">{{ dateFormat(date) }}</div>
+    <div id="time">
+      {{ dateFormat(date) }} <span style="color: #f00">{{ weather }}</span
+      ><span v-if="lower">{{ lower }}~{{ higher }}</span>
+    </div>
     <div id="main" style="width: 1500px; height: 600px; display: inline">
       图表1
     </div>
@@ -18,6 +21,7 @@ import echarts from "echarts";
 export default {
   created() {
     this.getAllEcharts();
+    this.getWeather();
   },
   data() {
     return {
@@ -30,11 +34,26 @@ export default {
     };
   },
   methods: {
+    getWeather() {
+      this.$http
+        .get("http://wthrcdn.etouch.cn/weather_mini?city=珠海")
+        .then((res) => {
+          this.weather = res.data.data.forecast[0].type
+            ? res.data.data.forecast[0].type
+            : "";
+          this.lower = res.data.data.forecast[0].low.substr(2);
+          this.higher = res.data.data.forecast[0].high.substr(2);
+          console.log(res.data.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     async getAllEcharts() {
       const { data: res1 } = await this.$http.get("getSpyData");
       console.log(res1);
       if (res1) {
-        this.voltdata = res1.curr;
+        this.voltdata = res1.volt;
         this.id = res1.id;
         this.tempdata = res1.temp;
       }
@@ -47,12 +66,12 @@ export default {
 
       var option = {
         title: {
-          text: "电流环境分析",
+          text: "电压环境分析",
           x: "left",
           y: "1px",
           textStyle: {
             color: "#3A7BD5",
-            fontSize: 16,
+            fontSize: 18,
           },
           textAlign: "left",
         },
@@ -65,18 +84,28 @@ export default {
         },
         grid: {
           top: 60,
-          left: "18%",
+          left: "15%",
           //   right: "15%",
           //   bottom: "10%",
           //   containLabel: true,
           // right: "37%",
         },
         legend: {
-          data: ["温度", "电压数据"],
+          data: [
+            {
+              name:"温度",
+              textStyle:{
+                color:"red"
+              }
+          }, {
+            name:"电压数据",
+            textStyle:{
+                color:"green"
+              }
+          }],
           textStyle: {
             fontSize: 16,
-            color: "green",
-             orient: 'vertical',  //垂直显示
+            orient: "vertical", //垂直显示
             y: "center", //延Y轴居中
             x: "left", //居右显示
           },
@@ -124,7 +153,7 @@ export default {
               position: "top", //在上方显示
               textStyle: {
                 //数值样式
-                color: "green",
+                color: "red",
                 fontSize: 13,
               },
             },
@@ -144,7 +173,7 @@ export default {
       this.chart2 = echarts.init(document.getElementById("secmain")); // console.log(this.chart) // 指定图表的配置项和数据
       var option2 = {
         title: {
-          text: "电流分布(单位:A)",
+          text: "电压分布（单位：V）",
         },
         tooltip: {
           trigger: "axis",
@@ -154,13 +183,19 @@ export default {
           },
         },
         grid: {
-          left: "18%",
+          left: "15%",
         },
         legend: {
-          data: ["操作id", "电流"],
+          data: [
+            {
+              name: "电压",
+              textStyle: {
+                color: "green", // 图例文字颜色
+              },
+            },
+          ],
           textStyle: {
             fontSize: 16,
-            color: "green",
           },
         },
         xAxis: {
@@ -177,8 +212,8 @@ export default {
         },
         series: [
           {
-            name: "电流",
-            type: "bar",
+            name: "电压",
+            type: "line",
             data: this.voltdata,
             itemStyle: {
               normal: {
@@ -188,19 +223,19 @@ export default {
                   position: "top", //在上方显示
                   textStyle: {
                     //数值样式
-                    color: "black",
+                    color: "red",
                     fontSize: 16,
                   },
                 },
               },
             },
           },
-          {
-            name: "操作id",
-            type: "line",
-            smooth: true,
-            data: this.id,
-          },
+          // {
+          //   name: "操作id",
+          //   type: "line",
+          //   smooth: true,
+          //   data: this.id,
+          // },
         ],
       };
       this.chart2.setOption(option2);
@@ -264,6 +299,6 @@ export default {
   height: 70%;
 }
 #time {
-  float:right;
+  float: right;
 }
 </style>

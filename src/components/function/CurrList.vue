@@ -52,7 +52,7 @@ export default {
         },
         grid: {
             top: 30,
-            left: "18%",
+            left: "15%",
           //   right: "15%",
           //   bottom: "10%",
           //   containLabel: true,
@@ -60,10 +60,20 @@ export default {
          
         },
         legend: {
-          data: ["温度", "电流数据"],
+          data: [
+            {
+              name:"温度",
+              textStyle:{
+                color:"red"
+              }
+          }, {
+            name:"电流数据",
+            textStyle:{
+                color:"green"
+              }
+          }],
           textStyle: {
             fontSize: 16,
-            color: "green",
           },
         },
         xAxis: {
@@ -108,7 +118,7 @@ export default {
                   position: "top", //在上方显示
                   textStyle: {
                     //数值样式
-                    color: "green",
+                    color: "red",
                     fontSize: 13,
                   },
                 },
@@ -138,7 +148,7 @@ export default {
           },
         },
         grid: {
-          left: "18%",
+          left: "15%",
          
         },
         legend: {
