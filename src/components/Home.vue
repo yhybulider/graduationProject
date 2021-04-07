@@ -71,6 +71,7 @@ export default {
         '106':'iconfont icon-keshihuakanban',
       },
       activepath:"/welcome",//默认路径
+      uid:0, // 默认是零
 
     };
   },
@@ -88,7 +89,8 @@ export default {
     async getMenuList() {
       // 结果封装
       // 后台获取的菜单数据保存在前端
-      const { data: res } = await this.$http.get("menus");
+      this.uid = window.sessionStorage.getItem('userId');
+      const { data: res } = await this.$http.get("menusByRole",{params:{id:this.uid}});
       console.log(res);
       if (res.flag != 200) return this.$message.error("操作失败！！");
       this.menuList = res.menus;

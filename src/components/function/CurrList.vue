@@ -1,9 +1,17 @@
 <template>
   <div id="app">
     Current Detection
-    <div id="main" style="width: 1500px; height: 400px;  display:inline">测试</div>
+      <div id="time">
+      {{ dateFormat(date) }} <span style="color: #f00">{{ weather }}</span
+      ><span v-if="lower">{{ lower }}~{{ higher }}</span>
+    </div>
+    <div id="main" style="width: 1500px; height: 600px; display: inline">
+      测试
+    </div>
 
-    <div id="secmain" style="width: 1500px; height: 400px;  display:inline">测试2</div>
+    <div id="secmain" style="width: 1500px; height: 600px; display: inline">
+      测试2
+    </div>
   </div>
 </template>
 
@@ -13,6 +21,7 @@ import echarts from "echarts";
 export default {
   created() {
     this.getAllEcharts();
+    this.getWeather();
   },
   data() {
     return {
@@ -21,9 +30,25 @@ export default {
       id: [],
       currdata: [],
       tempdata:[],
+      date: new Date(),
     };
   },
   methods: {
+     getWeather() {
+      this.$http
+        .get("http://wthrcdn.etouch.cn/weather_mini?city=珠海")
+        .then((res) => {
+          this.weather = res.data.data.forecast[0].type
+            ? res.data.data.forecast[0].type
+            : "";
+          this.lower = res.data.data.forecast[0].low.substr(2);
+          this.higher = res.data.data.forecast[0].high.substr(2);
+          console.log(res.data.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
     async getAllEcharts() {
       const { data: res1 } = await this.$http.get("getSpyData");
       console.log(res1);
@@ -41,7 +66,12 @@ export default {
 
       var option = {
         title: {
-          text: "电流环境分析",
+          text: "电流环境分析—（单位：℃/A）",
+          textStyle: {
+            color: "blue",
+            fontSize: 18,
+          },
+          textAlign: "left",
         },
         tooltip: {
           trigger: "axis",
@@ -51,13 +81,8 @@ export default {
           },
         },
         grid: {
-            top: 30,
+            top: 65,
             left: "15%",
-          //   right: "15%",
-          //   bottom: "10%",
-          //   containLabel: true,
-          // right: "37%",
-         
         },
         legend: {
           data: [
@@ -69,11 +94,13 @@ export default {
           }, {
             name:"电流数据",
             textStyle:{
-                color:"green"
+                color:"black"
               }
           }],
           textStyle: {
             fontSize: 16,
+            y: "center", //延Y轴居中
+            x: "left", //居右显示
           },
         },
         xAxis: {
@@ -138,7 +165,7 @@ export default {
       this.chart2 = echarts.init(document.getElementById("secmain")); // console.log(this.chart) // 指定图表的配置项和数据
       var option2 = {
         title: {
-          text: "电流分布(单位:A)",
+          text: "电流检测(单位:A)",
         },
         tooltip: {
           trigger: "axis",
@@ -152,7 +179,7 @@ export default {
          
         },
         legend: {
-          data: ["操作id", "电流"],
+          data: ["电流"],
           textStyle: {
             fontSize: 16,
             color: "green",
@@ -190,12 +217,12 @@ export default {
               },
             },
           },
-          {
-            name: "操作id",
-            type: "line",
-            smooth: true,
-            data: this.id,
-          },
+          // {
+          //   name: "操作id",
+          //   type: "line",
+          //   smooth: true,
+          //   data: this.id,
+          // },
         ],
       };
       this.chart2.setOption(option2);
@@ -206,6 +233,50 @@ export default {
         this.chart2.resize();
       };
     },
+    dateFormat(time) {
+      var date = new Date(time);
+      var year = date.getFullYear();
+      /* 在日期格式中，月份是从0开始的，因此要加0
+       * 使用三元表达式在小于10的前面加0，以达到格式统一  如 09:11:05
+       * */
+      var month =
+        date.getMonth() + 1 < 10
+          ? "0" + (date.getMonth() + 1)
+          : date.getMonth() + 1;
+      var day = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+      var hours =
+        date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+      var minutes =
+        date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+      var seconds =
+        date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+      // 拼接
+      return (
+        year +
+        "-" +
+        month +
+        "-" +
+        day +
+        " " +
+        hours +
+        ":" +
+        minutes +
+        ":" +
+        seconds
+      );
+    },
+  },
+  mounted() {
+    //显示当前日期时间
+    let _this = this; // 声明一个变量指向Vue实例this，保证作用域一致
+    this.timer = setInterval(() => {
+      _this.date = new Date(); // 修改数据date
+    }, 1000);
+  },
+  beforeDestroy() {
+    if (this.timer) {
+      clearInterval(this.timer); // 在Vue实例销毁前，清除我们的定时器
+    }
   },
 };
 </script>
@@ -213,5 +284,8 @@ export default {
 <style scoped>
 .app {
   height: 70%;
+}
+#time {
+  float: right;
 }
 </style>

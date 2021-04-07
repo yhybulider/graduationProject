@@ -69,7 +69,10 @@ export default {
                     this.$router.push({path:"/home"}); // 地址跳转
                     // 存储use信息
                     window.sessionStorage.setItem("user",res.user);
+
+                    window.sessionStorage.getItem("userId",res.user.id);
                     console.log(res.user);
+                    console.log(res.user.id);
 
                     // 进入首页
                     this.$router.push({path:"/home"})

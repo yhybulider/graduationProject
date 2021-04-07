@@ -66,7 +66,7 @@ export default {
 
       var option = {
         title: {
-          text: "电压环境分析",
+          text: "电压环境分析—（单位：℃/V）",
           x: "left",
           y: "1px",
           textStyle: {
@@ -100,7 +100,7 @@ export default {
           }, {
             name:"电压数据",
             textStyle:{
-                color:"green"
+                color:"black"
               }
           }],
           textStyle: {
@@ -173,7 +173,7 @@ export default {
       this.chart2 = echarts.init(document.getElementById("secmain")); // console.log(this.chart) // 指定图表的配置项和数据
       var option2 = {
         title: {
-          text: "电压分布（单位：V）",
+          text: "电压检测（单位：V）",
         },
         tooltip: {
           trigger: "axis",
