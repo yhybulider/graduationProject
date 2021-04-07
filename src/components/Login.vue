@@ -66,11 +66,14 @@ export default {
                 const {data:res} = await this.$http.post("login",this.loginForm); // 访问后台
                 if ( res.str == "ok") { 
                     this.$message.success("操作成功!!!");
+                    // window.sessionStorage.setItem("userId",res.user.id);
+                    window.localStorage.setItem("userId",res.user.id);
                     this.$router.push({path:"/home"}); // 地址跳转
                     // 存储use信息
                     window.sessionStorage.setItem("user",res.user);
+                    window.localStorage.setItem("user",res.user);
 
-                    window.sessionStorage.getItem("userId",res.user.id);
+                
                     console.log(res.user);
                     console.log(res.user.id);
 

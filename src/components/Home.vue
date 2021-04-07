@@ -71,26 +71,34 @@ export default {
         '106':'iconfont icon-keshihuakanban',
       },
       activepath:"/welcome",//默认路径
-      uid:0, // 默认是零
-
+      uid:2, // 默认是零
+      user:[],
     };
   },
   // onload事件，一开始加载就执行查询menu方法
   created() {
-    this.getMenuList();
     // 取出session里的访问路径
+      console.log(this.uid+1);
     this.activepath = window.sessionStorage.getItem('activepath');
+    this.uid = window.localStorage.getItem("userId");
+    console.log(this.uid);
+    this.getMenuList();
+
+  },
+  mounted() {
+    console.log(this.uid);
   },
   methods: {
     logout() {
       window.sessionStorage.clear(); //清除session，退出的时候
+      window.localStorage.clear(); // 清除
       this.$router.push("/login");
     },
     async getMenuList() {
       // 结果封装
       // 后台获取的菜单数据保存在前端
-      this.uid = window.sessionStorage.getItem('userId');
-      const { data: res } = await this.$http.get("menusByRole",{params:{id:this.uid}});
+    
+      const { data : res } = await this.$http.get("menus",{params:{"id" : this.uid},});
       console.log(res);
       if (res.flag != 200) return this.$message.error("操作失败！！");
       this.menuList = res.menus;

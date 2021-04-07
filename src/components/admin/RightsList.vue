@@ -64,6 +64,7 @@ export default {
   },
   data() {
     return {
+      uid:0, // 默认是零
       role: {
         username: "",
         email: "",
@@ -94,7 +95,9 @@ export default {
     async getMenuList() {
       // 结果封装
       // 后台获取的菜单数据保存在前端
-      const { data: res } = await this.$http.get("menus");
+       this.uid = window.sessionStorage.getItem('userId');
+      console.log(this.uid)
+      const { data: res } = await this.$http.get("menus",{params:{id:this.uid}});
       console.log(res);
       if (res.flag != 200) return this.$message.error("操作失败！！");
       this.allMeus = res.menus;
