@@ -8,6 +8,7 @@ import VolteList from '../components/function/VolteList.vue'
 import CurrList from '../components/function/CurrList.vue'
 import TempList from '../components/function/TempList.vue'
 import RightsList from '../components/admin/RightsList.vue'
+import ElecTotal from '../components/function/ElecTotal.vue'
 
 Vue.use(VueRouter)
 
@@ -31,6 +32,7 @@ const routes = [
       {path:"/Volt",component: VolteList,},
       {path:"/Elec",component: CurrList,},
       {path:"/Temp",component: TempList,},
+      {path:"/Func",component: ElecTotal,},
     ]
 
   },

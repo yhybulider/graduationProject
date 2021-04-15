@@ -97,7 +97,7 @@ export default {
       // 后台获取的菜单数据保存在前端
        this.uid = window.sessionStorage.getItem('userId');
       console.log(this.uid)
-      const { data: res } = await this.$http.get("menus",{params:{id:this.uid}});
+      const { data: res } = await this.$http.get("allmenus");
       console.log(res);
       if (res.flag != 200) return this.$message.error("操作失败！！");
       this.allMeus = res.menus;
